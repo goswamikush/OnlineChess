@@ -9,7 +9,7 @@ grid = variables.grid
 class Pawn():
     def __init__(self, r, c, player):
         self.isClicked = False
-        self.movedYet = False
+        self.isFirstMove = True
         self.r = r
         self.c = c
         self.player = player
@@ -18,10 +18,43 @@ class Pawn():
     def draw(self, r, c):
         centerX = c * WIDTH // 8 + .5 * WIDTH // 8
         centerY = r * WIDTH // 8 + .5 * WIDTH // 8
-        pygame.draw.circle(screen, "green", (centerX, centerY), self.radius)
+        if self.player == 0:
+            color = "green"
+        else:
+            color = "brown"
+        pygame.draw.circle(screen, color, (centerX, centerY), self.radius)
     
-    def move(self, newR, newC):
-        grid[self.r][self.c] = 0
-        self.r = newR
-        self.c = newC
-        grid[self.r][self.c] = self
+    def move(self, newR, newC, currTurn):
+        if currTurn != self.player:
+            return False
+        possibleSpots = set()
+        if self.player == 0:
+            if self.isFirstMove:
+                if grid[self.r - 2][self.c] == 0:
+                    possibleSpots.add((self.r - 2, self.c))
+            if grid[self.r - 1][self.c] == 0:
+                possibleSpots.add((self.r - 1, self.c))
+            if grid[self.r - 1][self.c + 1] != 0 and grid[self.r - 1][self.c + 1].player == 1:
+                possibleSpots.add((self.r - 1, self.c + 1))
+            if grid[self.r - 1][self.c - 1] != 0 and grid[self.r - 1][self.c - 1].player == 1:
+                possibleSpots.add((self.r - 1, self.c - 1))
+            
+        elif self.player == 1:
+            if self.isFirstMove:
+                if grid[self.r + 2][self.c] == 0:
+                    possibleSpots.add((self.r + 2, self.c))
+            if grid[self.r + 1][self.c] == 0:
+                possibleSpots.add((self.r + 1, self.c))
+            if grid[self.r + 1][self.c + 1] != 0:
+                possibleSpots.add((self.r + 1, self.c + 1))
+            if grid[self.r + 1][self.c - 1] != 0:
+                possibleSpots.add((self.r + 1, self.c - 1))
+        
+        if (newR, newC) in possibleSpots:
+            grid[self.r][self.c] = 0
+            self.r, self.c = newR, newC
+            grid[self.r][self.c] = self
+            self.isFirstMove = False
+            return True
+        
+        return False
