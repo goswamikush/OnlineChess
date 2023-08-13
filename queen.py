@@ -12,8 +12,10 @@ class Queen():
         self.movedYet = False
         self.r = r
         self.c = c
-        self.player = player
+        self.player = player.number
+        self.playerObj = player
         self.radius = 20
+        self.type = "queen"
     
     def draw(self, r, c):
         centerX = c * WIDTH // 8 + .5 * WIDTH // 8
@@ -107,6 +109,6 @@ class Queen():
                 break
             res.add((self.r, tempC))
             tempC -= 1
-            
+
         return res
 

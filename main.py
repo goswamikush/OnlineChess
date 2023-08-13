@@ -6,6 +6,7 @@ import bishop
 import knight
 import queen
 import king
+import player
 # pygame setup
 ROWS, COLS = variables.ROWS, variables.COLS
 WIDTH, HEIGHT = variables.WIDTH, variables.HEIGHT
@@ -17,6 +18,9 @@ running = variables.running
 grid = variables.grid
 
 currTurn = 0
+
+player0 = player.Player(0, set())
+player1 = player.Player(1, set())
 
 def draw_board():
     currColor = "black"
@@ -38,57 +42,69 @@ def draw_board():
 def initialize_grid():
     r = 6
     for c in range(8):
-        newPawn = pawn.Pawn(r, c, 0)
+        newPawn = pawn.Pawn(r, c, player0)
         grid[r][c] = newPawn
         newPawn.draw(r, c)
+        player0.pieces.add(newPawn)
     
     r = 1
     for c in range(8):
-        newPawn = pawn.Pawn(r, c, 1)
+        newPawn = pawn.Pawn(r, c, player1)
         grid[r][c] = newPawn
         newPawn.draw(r, c)
+        player1.pieces.add(newPawn)
 
     r = (0, 7)
     for c in range(8):
         if c == 0 or c == 7:
-            newRook = rook.Rook(r[0], c, 1)
+            newRook = rook.Rook(r[0], c, player1)
             grid[r[0]][c] = newRook
             newRook.draw(r[0], c)
+            player1.pieces.add(newRook)
 
-            newRook = rook.Rook(r[1], c, 0)
+            newRook = rook.Rook(r[1], c, player0)
             grid[r[1]][c] = newRook
             newRook.draw(r[1], c)
+            player0.pieces.add(newRook)
         if c == 1 or c == 6:
-            newKnight = knight.Knight(r[0], c, 1)
+            newKnight = knight.Knight(r[0], c, player1)
             grid[r[0]][c] = newKnight
             newKnight.draw(r[0], c)
+            player1.pieces.add(newKnight)
 
-            newKnight = knight.Knight(r[1], c, 0)
+            newKnight = knight.Knight(r[1], c, player0)
             grid[r[1]][c] = newKnight
             newKnight.draw(r[1], c)
+            player0.pieces.add(newKnight)
         if c == 2 or c == 5:
-            newBishop = bishop.Bishop(r[0], c, 1)
+            newBishop = bishop.Bishop(r[0], c, player1)
             grid[r[0]][c] = newBishop
             newBishop.draw(r[0], c)
+            player1.pieces.add(newBishop)
 
-            newBishop = bishop.Bishop(r[1], c, 0)
+            newBishop = bishop.Bishop(r[1], c, player0)
             grid[r[1]][c] = newBishop
             newBishop.draw(r[1], c)
+            player0.pieces.add(newBishop)
         if c == 3:
-            newQueen = queen.Queen(r[0], c, 1)
+            newQueen = queen.Queen(r[0], c, player1)
             grid[r[0]][c] = newQueen
             newQueen.draw(r[0], c)
+            player1.pieces.add(newQueen)
         if c == 4:
-            newQueen = queen.Queen(r[1], c, 0)
+            newQueen = queen.Queen(r[1], c, player0)
             grid[r[1]][c] = newQueen
             newQueen.draw(r[1], c)
-    newKing = king.King(7, 3, 0)
+            player0.pieces.add(newQueen)
+    newKing = king.King(7, 3, player0)
     grid[7][3] = newKing
+    player0.pieces.add(newKing)
     newKing.draw(7, 3)
 
-    newKing = king.King(0, 4, 1)
+    newKing = king.King(0, 4, player1)
     grid[0][4] = newKing
     newKing.draw(0, 4)
+    player1.pieces.add(newKing)
 
 def update_grid():
     draw_board()
@@ -98,15 +114,6 @@ def update_grid():
                 grid[r][c].draw(r, c)
 
 def calculate_banned_squares():
-    # resPlayerZero = set()
-    # resPlayerOne = set()
-    # for r in range(ROWS):
-    #     for c in range(COLS):
-    #         if (r, c) not in resPlayerZero and (r, c) not in resPlayerOne and grid[r][c] != 0:
-    #             if grid[r][c].player == 0:
-    #                 bannedSpots = grid[r][c].bannedSpots
-    #                 for spot in bannedSpots:
-    #                     resPlayerOne.add(bannedSpots)
     playerZeroBannedSpots = set()
     playerOneBannedSpots = set()
     for r in range(ROWS):
@@ -119,8 +126,8 @@ def calculate_banned_squares():
                             playerOneBannedSpots.add(spot)
                         else:
                             playerZeroBannedSpots.add(spot)
-    print("0", playerZeroBannedSpots)
-    print("1", playerOneBannedSpots)
+    # print("0", playerZeroBannedSpots)
+    # print("1", playerOneBannedSpots)
                     
 # def isCheck(player):
 #     pass
@@ -130,7 +137,6 @@ def calculate_banned_squares():
 
 draw_board()
 initialize_grid()
-
 
 currClicked = 0
 while running:

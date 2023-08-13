@@ -12,6 +12,8 @@ class King():
         self.isFirstMove = True
         self.r = r
         self.c = c
+        self.player = player.number
+        self.playerObj = player
         self.player = player
         self.radius = 20
     
