@@ -20,9 +20,22 @@ class Queen():
         centerY = r * WIDTH // 8 + .5 * WIDTH // 8
         pygame.draw.circle(screen, "yellow", (centerX, centerY), self.radius)
     
-    def move(self, newR, newC):
-        grid[self.r][self.c] = 0
-        self.r = newR
-        self.c = newC
-        grid[self.r][self.c] = self
+    def move(self, newR, newC, currTurn):
+        if currTurn != self.player:
+            return False
+        if (newC == self.c and newR != self.r) or (newR == self.r and newC != self.c):
+            if grid[newR][newC] != 0 and grid[newR][newC].player == self.player:
+                return False
+            grid[self.r][self.c] = 0
+            self.r, self.c = newR, newC
+            grid[self.r][self.c] = self
+            return True
+        elif newR != self.r and newC != self.c and abs(newR - self.r) == abs(newC - self.c):
+            if grid[newR][newC] != 0 and grid[newR][newC].player == self.player:
+                return False
+            grid[self.r][self.c] = 0
+            self.r, self.c = newR, newC
+            grid[self.r][self.c] = self
+            return True
+        return False
 

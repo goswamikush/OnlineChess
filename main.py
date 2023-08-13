@@ -74,11 +74,11 @@ def initialize_grid():
             grid[r[1]][c] = newBishop
             newBishop.draw(r[1], c)
         if c == 3:
-            newQueen = queen.Queen(r[0], c, 0)
+            newQueen = queen.Queen(r[0], c, 1)
             grid[r[0]][c] = newQueen
             newQueen.draw(r[0], c)
         if c == 4:
-            newQueen = queen.Queen(r[1], c, 1)
+            newQueen = queen.Queen(r[1], c, 0)
             grid[r[1]][c] = newQueen
             newQueen.draw(r[1], c)
 
