@@ -47,6 +47,8 @@ class Queen():
         r, c = self.r - 1, self.c + 1
         while r in range(8) and c in range(8):
             if grid[r][c] != 0:
+                if grid[r][c].player != self.player:
+                    res.add((r, c))
                 break
             res.add((r, c))
             r -= 1
@@ -56,6 +58,8 @@ class Queen():
         r, c = self.r - 1, self.c - 1
         while r in range(8) and c in range(8):
             if grid[r][c] != 0:
+                if grid[r][c].player != self.player:
+                    res.add((r, c))
                 break
             res.add((r, c))
             r -= 1
@@ -65,6 +69,8 @@ class Queen():
         r, c = self.r + 1, self.c + 1
         while r in range(8) and c in range(8):
             if grid[r][c] != 0:
+                if grid[r][c].player != self.player:
+                    res.add((r, c))
                 break
             res.add((r, c))
             r += 1
@@ -74,6 +80,8 @@ class Queen():
         r, c = self.r + 1, self.c - 1
         while r in range(8) and c in range(8):
             if grid[r][c] != 0:
+                if grid[r][c].player != self.player:
+                    res.add((r, c))
                 break
             res.add((r, c))
             r += 1
@@ -82,6 +90,8 @@ class Queen():
         tempR = self.r - 1
         while tempR >= 0:
             if grid[tempR][self.c] != 0:
+                if grid[tempR][self.c].player != self.player:
+                    res.add((tempR, self.c))
                 break
             res.add((tempR, self.c))
             tempR -= 1
@@ -90,6 +100,8 @@ class Queen():
         tempR = self.r + 1
         while tempR < 8:
             if grid[tempR][self.c] != 0:
+                if grid[tempR][self.c].player != self.player:
+                    res.add((tempR, self.c))
                 break
             res.add((tempR, self.c))
             tempR += 1
@@ -98,6 +110,8 @@ class Queen():
         tempC = self.c - 1
         while tempC < 8:
             if grid[self.r][tempC] != 0:
+                if grid[self.r][tempC].player != self.player:
+                    res.add((self.r, tempC))
                 break
             res.add((self.r, tempC))
             tempC += 1
@@ -106,6 +120,8 @@ class Queen():
         tempC = self.c + 1
         while tempC >= 0:
             if grid[self.r][tempC] != 0:
+                if grid[self.r][tempC].player != self.player:
+                    res.add((self.r, tempC))
                 break
             res.add((self.r, tempC))
             tempC -= 1

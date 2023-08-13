@@ -100,11 +100,13 @@ def initialize_grid():
     grid[7][3] = newKing
     player0.pieces.add(newKing)
     newKing.draw(7, 3)
+    player0.king = newKing
 
     newKing = king.King(0, 4, player1)
     grid[0][4] = newKing
     newKing.draw(0, 4)
     player1.pieces.add(newKing)
+    player1.king = newKing
 
 def update_grid():
     draw_board()
@@ -156,7 +158,8 @@ while running:
             elif grid[r][c] != 0:
                 grid[r][c].isClicked = True
                 currClicked = grid[r][c]
-            calculate_banned_squares()
+            player0.isInCheck()
+            # player1.isInCheck()
     update_grid()
     pygame.display.flip()
 

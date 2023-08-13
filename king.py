@@ -14,8 +14,9 @@ class King():
         self.c = c
         self.player = player.number
         self.playerObj = player
-        self.player = player
         self.radius = 20
+        self.bannedSquares = set()
+        self.type = "king"
     
     def draw(self, r, c):
         centerX = c * WIDTH // 8 + .5 * WIDTH // 8
@@ -45,7 +46,6 @@ class King():
                 (grid[move[0]][move[1]] != 0 and grid[move[0]][move[1]].player == self.player)):
                 continue
             possibleMovesSet.add((move[0], move[1]))
-        
         if (newR, newC) in possibleMovesSet:
             grid[self.r][self.c] = 0
             self.r, self.c = newR, newC
@@ -76,3 +76,24 @@ class King():
             res.add((r, c))
         
         return res
+    
+    def isInCheck(self):
+        self.calc_banned_squares()
+        print(self.r, self.c)
+        print(self.bannedSquares)
+        res = (self.r, self.c) in self.bannedSquares
+        print(res)
+        return res
+    
+    def calc_banned_squares(self):
+        print(self.player)
+        res = set()
+        for r in range(8):
+            for c in range(8):
+                if grid[r][c] != 0 and grid[r][c].player != self.player and grid[r][c].type == "queen":
+                    tempBanned = grid[r][c].bannedSpots()
+                    for spot in tempBanned:
+                        res.add(spot)
+        self.bannedSquares = res
+    
+            
