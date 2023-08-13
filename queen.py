@@ -39,3 +39,74 @@ class Queen():
             return True
         return False
 
+    def bannedSpots(self):
+        res = set()
+        #Top right diagonal
+        r, c = self.r - 1, self.c + 1
+        while r in range(8) and c in range(8):
+            if grid[r][c] != 0:
+                break
+            res.add((r, c))
+            r -= 1
+            c += 1
+        
+        #Top left diagonal
+        r, c = self.r - 1, self.c - 1
+        while r in range(8) and c in range(8):
+            if grid[r][c] != 0:
+                break
+            res.add((r, c))
+            r -= 1
+            c -= 1
+        
+        #Bottom right diagonal
+        r, c = self.r + 1, self.c + 1
+        while r in range(8) and c in range(8):
+            if grid[r][c] != 0:
+                break
+            res.add((r, c))
+            r += 1
+            c += 1
+        
+        #Bottom right diagonal
+        r, c = self.r + 1, self.c - 1
+        while r in range(8) and c in range(8):
+            if grid[r][c] != 0:
+                break
+            res.add((r, c))
+            r += 1
+            c -= 1
+        #Spaces in front
+        tempR = self.r - 1
+        while tempR >= 0:
+            if grid[tempR][self.c] != 0:
+                break
+            res.add((tempR, self.c))
+            tempR -= 1
+        
+        #Spaces below
+        tempR = self.r + 1
+        while tempR < 8:
+            if grid[tempR][self.c] != 0:
+                break
+            res.add((tempR, self.c))
+            tempR += 1
+
+        #Spaces to the left
+        tempC = self.c - 1
+        while tempC < 8:
+            if grid[self.r][tempC] != 0:
+                break
+            res.add((self.r, tempC))
+            tempC += 1
+        
+        #Spaces to the right
+        tempC = self.c + 1
+        while tempC >= 0:
+            if grid[self.r][tempC] != 0:
+                break
+            res.add((self.r, tempC))
+            tempC -= 1
+            
+        return res
+

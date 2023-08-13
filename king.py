@@ -51,3 +51,26 @@ class King():
             return True
 
         return False
+
+    def bannedSpots(self):
+        res = set()
+        
+        dirs = [
+            [self.r + 1, self.c],
+            [self.r - 1, self.c],
+            [self.r, self.c - 1],
+            [self.r, self.c + 1],
+            [self.r + 1, self.c + 1],
+            [self.r + 1, self.c - 1],
+            [self.r - 1, self.c + 1],
+            [self.r - 1, self.c - 1]
+        ]
+
+        for r, c in dirs:
+            if (r not in range(8) or
+                c not in range(8) or
+                grid[r][c] != 0):
+                continue
+            res.add((r, c))
+        
+        return res

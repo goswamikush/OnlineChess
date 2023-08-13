@@ -21,8 +21,6 @@ class Knight():
         pygame.draw.circle(screen, "purple", (centerX, centerY), self.radius)
     
     def move(self, newR, newC, currTurn):
-        print(self.r, self.c)
-        print(newR, newC)
         if currTurn != self.player:
             return False
         possibleMovesList = [(self.r - 1, self.c + 2), 
@@ -47,4 +45,23 @@ class Knight():
             grid[self.r][self.c] = self
             return True
         return False
+    
+    def bannedSpots(self):
+        res = set()
+
+        possibleMovesList = [(self.r - 1, self.c + 2), 
+                            (self.r - 1, self.c - 2), 
+                            (self.r + 1, self.c + 2),
+                            (self.r + 1, self.c - 2),
+                            (self.r - 2, self.c + 1),
+                            (self.r - 2, self.c - 1),
+                            (self.r + 2, self.c + 1),
+                            (self.r + 2, self.c - 1)]
+        
+        for move in possibleMovesList:
+            if move[0] in range(8) and move[1] in range(8) and grid[move[0]][move[1]] == 0:
+                res.add(move)
+        
+        return res
+
         

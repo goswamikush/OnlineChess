@@ -31,3 +31,43 @@ class Bishop():
             grid[self.r][self.c] = self
             return True
         return False
+
+    def bannedSpots(self):
+        res = set()
+        #Top right diagonal
+        r, c = self.r - 1, self.c + 1
+        while r in range(8) and c in range(8):
+            if grid[r][c] != 0:
+                break
+            res.add((r, c))
+            r -= 1
+            c += 1
+        
+        #Top left diagonal
+        r, c = self.r - 1, self.c - 1
+        while r in range(8) and c in range(8):
+            if grid[r][c] != 0:
+                break
+            res.add((r, c))
+            r -= 1
+            c -= 1
+        
+        #Bottom right diagonal
+        r, c = self.r + 1, self.c + 1
+        while r in range(8) and c in range(8):
+            if grid[r][c] != 0:
+                break
+            res.add((r, c))
+            r += 1
+            c += 1
+        
+        #Bottom right diagonal
+        r, c = self.r + 1, self.c - 1
+        while r in range(8) and c in range(8):
+            if grid[r][c] != 0:
+                break
+            res.add((r, c))
+            r += 1
+            c -= 1
+        
+        return res

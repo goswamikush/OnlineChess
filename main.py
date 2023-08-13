@@ -96,6 +96,32 @@ def update_grid():
         for c in range(COLS):
             if grid[r][c] != 0:
                 grid[r][c].draw(r, c)
+
+def calculate_banned_squares():
+    # resPlayerZero = set()
+    # resPlayerOne = set()
+    # for r in range(ROWS):
+    #     for c in range(COLS):
+    #         if (r, c) not in resPlayerZero and (r, c) not in resPlayerOne and grid[r][c] != 0:
+    #             if grid[r][c].player == 0:
+    #                 bannedSpots = grid[r][c].bannedSpots
+    #                 for spot in bannedSpots:
+    #                     resPlayerOne.add(bannedSpots)
+    playerZeroBannedSpots = set()
+    playerOneBannedSpots = set()
+    for r in range(ROWS):
+        for c in range(COLS):
+            if grid[r][c] != 0:
+                    player = grid[r][c].player
+                    bannedSpots = grid[r][c].bannedSpots()
+                    for spot in bannedSpots:
+                        if player == 0:
+                            playerOneBannedSpots.add(spot)
+                        else:
+                            playerZeroBannedSpots.add(spot)
+    print("0", playerZeroBannedSpots)
+    print("1", playerOneBannedSpots)
+                    
 # def isCheck(player):
 #     pass
 
@@ -124,6 +150,7 @@ while running:
             elif grid[r][c] != 0:
                 grid[r][c].isClicked = True
                 currClicked = grid[r][c]
+            calculate_banned_squares()
     update_grid()
     pygame.display.flip()
 

@@ -58,3 +58,26 @@ class Pawn():
             return True
         
         return False
+    
+    def bannedSpots(self):
+        res = set()
+        
+        if self.player == 0:
+            dirs = [
+                [self.r - 1, self.c + 1],
+                [self.r - 1, self.c - 1]
+            ]
+        else:
+            dirs = [
+                [self.r + 1, self.c + 1],
+                [self.r + 1, self.c - 1],
+            ]
+
+        for r, c in dirs:
+            if (r not in range(8) or
+                c not in range(8) or
+                grid[r][c] != 0):
+                continue
+            res.add((r, c))
+        
+        return res
