@@ -5,6 +5,7 @@ import rook
 import bishop
 import knight
 import queen
+import king
 # pygame setup
 ROWS, COLS = variables.ROWS, variables.COLS
 WIDTH, HEIGHT = variables.WIDTH, variables.HEIGHT
@@ -81,6 +82,13 @@ def initialize_grid():
             newQueen = queen.Queen(r[1], c, 0)
             grid[r[1]][c] = newQueen
             newQueen.draw(r[1], c)
+    newKing = king.King(7, 3, 0)
+    grid[7][3] = newKing
+    newKing.draw(7, 3)
+
+    newKing = king.King(0, 4, 1)
+    grid[0][4] = newKing
+    newKing.draw(0, 4)
 
 def update_grid():
     draw_board()
