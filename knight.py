@@ -20,8 +20,31 @@ class Knight():
         centerY = r * WIDTH // 8 + .5 * WIDTH // 8
         pygame.draw.circle(screen, "purple", (centerX, centerY), self.radius)
     
-    def move(self, newR, newC):
-        grid[self.r][self.c] = 0
-        self.r = newR
-        self.c = newC
-        grid[self.r][self.c] = self
+    def move(self, newR, newC, currTurn):
+        print(self.r, self.c)
+        print(newR, newC)
+        if currTurn != self.player:
+            return False
+        possibleMovesList = [(self.r - 1, self.c + 2), 
+                            (self.r - 1, self.c - 2), 
+                            (self.r + 1, self.c + 2),
+                            (self.r + 1, self.c - 2),
+                            (self.r - 2, self.c + 1),
+                            (self.r - 2, self.c - 1),
+                            (self.r + 2, self.c + 1),
+                            (self.r + 2, self.c - 1)]
+        
+        possibleMoves = set()
+        for move in possibleMovesList:
+            if move[0] in range(8) and move[1] in range(8):
+                possibleMoves.add(move)
+
+        if (newR, newC) in possibleMoves:
+            if grid[newR][newC] != 0 and grid[newR][newC].player == self.player:
+                return False
+            grid[self.r][self.c] = 0
+            self.r, self.c = newR, newC
+            grid[self.r][self.c] = self
+            return True
+        return False
+        
