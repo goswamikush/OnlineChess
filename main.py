@@ -88,6 +88,12 @@ def update_grid():
         for c in range(COLS):
             if grid[r][c] != 0:
                 grid[r][c].draw(r, c)
+def isCheck(player):
+    pass
+
+def isCheckMate(player):
+    pass
+
 draw_board()
 initialize_grid()
 

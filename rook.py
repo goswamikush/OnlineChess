@@ -24,7 +24,7 @@ class Rook():
         if currTurn != self.player:
             return False
         if (newC == self.c and newR != self.r) or (newR == self.r and newC != self.c):
-            if grid[newR][newC] != 0 and grid[newR][newC].player == 0:
+            if grid[newR][newC] != 0 and grid[newR][newC].player == self.player:
                 return False
             grid[self.r][self.c] = 0
             self.r, self.c = newR, newC
