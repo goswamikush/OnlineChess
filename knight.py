@@ -42,10 +42,24 @@ class Knight():
         if (newR, newC) in possibleMoves:
             if grid[newR][newC] != 0 and grid[newR][newC].player == self.player:
                 return False
-            grid[self.r][self.c] = 0
-            self.r, self.c = newR, newC
-            grid[self.r][self.c] = self
-            return True
+            if self.playerObj.inCheck:
+                grid[self.r][self.c] = 0
+                prev = grid[newR][newC]
+                grid[newR][newC] = self
+                if self.playerObj.isInCheck(grid):
+                    grid[self.r][self.c] = self
+                    grid[newR][newC] = prev
+                    return False
+                else:
+                    grid[self.r][self.c] = 0
+                    self.r, self.c = newR, newC
+                    grid[self.r][self.c] = self
+                    return True
+            else:
+                grid[self.r][self.c] = 0
+                self.r, self.c = newR, newC
+                grid[self.r][self.c] = self
+                return True
         return False
     
     def bannedSpots(self):

@@ -32,32 +32,47 @@ class Pawn():
         possibleSpots = set()
         if self.player == 0:
             if self.isFirstMove:
-                if grid[self.r - 2][self.c] == 0:
+                if (self.r - 2) in range(8) and grid[self.r - 2][self.c] == 0:
                     possibleSpots.add((self.r - 2, self.c))
-            if grid[self.r - 1][self.c] == 0:
+            if (self.r - 1) in range(8) and grid[self.r - 1][self.c] == 0:
                 possibleSpots.add((self.r - 1, self.c))
-            if grid[self.r - 1][self.c + 1] != 0 and grid[self.r - 1][self.c + 1].player == 1:
+            if (self.r - 1) in range(8) and (self.c + 1) in range(8) and grid[self.r - 1][self.c + 1] != 0 and grid[self.r - 1][self.c + 1].player == 1:
                 possibleSpots.add((self.r - 1, self.c + 1))
-            if grid[self.r - 1][self.c - 1] != 0 and grid[self.r - 1][self.c - 1].player == 1:
+            if (self.r - 1) in range(8) and (self.c - 1) in range(8) and grid[self.r - 1][self.c - 1] != 0 and grid[self.r - 1][self.c - 1].player == 1:
                 possibleSpots.add((self.r - 1, self.c - 1))
             
         elif self.player == 1:
             if self.isFirstMove:
-                if grid[self.r + 2][self.c] == 0:
+                if (self.r + 2) in range(8) and grid[self.r + 2][self.c] == 0:
                     possibleSpots.add((self.r + 2, self.c))
-            if grid[self.r + 1][self.c] == 0:
+            if (self.r + 1) in range(8) and grid[self.r + 1][self.c] == 0:
                 possibleSpots.add((self.r + 1, self.c))
-            if grid[self.r + 1][self.c + 1] != 0:
+            if (self.r + 1) in range(8) and (self.c + 1) in range(8) and grid[self.r + 1][self.c + 1] != 0:
                 possibleSpots.add((self.r + 1, self.c + 1))
-            if grid[self.r + 1][self.c - 1] != 0:
+            if (self.r + 1) in range(8) and (self.c - 1) in range(8) and grid[self.r + 1][self.c - 1] != 0:
                 possibleSpots.add((self.r + 1, self.c - 1))
-        
+
         if (newR, newC) in possibleSpots:
-            grid[self.r][self.c] = 0
-            self.r, self.c = newR, newC
-            grid[self.r][self.c] = self
-            self.isFirstMove = False
-            return True
+            if self.playerObj.inCheck:
+                grid[self.r][self.c] = 0
+                prev = grid[newR][newC]
+                grid[newR][newC] = self
+                if self.playerObj.isInCheck(grid):
+                    grid[self.r][self.c] = self
+                    grid[newR][newC] = prev
+                    return False
+                else:
+                    grid[self.r][self.c] = 0
+                    self.r, self.c = newR, newC
+                    grid[self.r][self.c] = self
+                    self.isFirstMove = False
+                    return True
+            else:
+                grid[self.r][self.c] = 0
+                self.r, self.c = newR, newC
+                grid[self.r][self.c] = self
+                self.isFirstMove = False
+                return True
         
         return False
     

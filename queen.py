@@ -28,17 +28,45 @@ class Queen():
         if (newC == self.c and newR != self.r) or (newR == self.r and newC != self.c):
             if grid[newR][newC] != 0 and grid[newR][newC].player == self.player:
                 return False
-            grid[self.r][self.c] = 0
-            self.r, self.c = newR, newC
-            grid[self.r][self.c] = self
-            return True
+            if self.playerObj.inCheck:
+                grid[self.r][self.c] = 0
+                prev = grid[newR][newC]
+                grid[newR][newC] = self
+                if self.playerObj.isInCheck(grid):
+                    grid[self.r][self.c] = self
+                    grid[newR][newC] = prev
+                    return False
+                else:
+                    grid[self.r][self.c] = 0
+                    self.r, self.c = newR, newC
+                    grid[self.r][self.c] = self
+                    return True
+            else:
+                grid[self.r][self.c] = 0
+                self.r, self.c = newR, newC
+                grid[self.r][self.c] = self
+                return True
         elif newR != self.r and newC != self.c and abs(newR - self.r) == abs(newC - self.c):
             if grid[newR][newC] != 0 and grid[newR][newC].player == self.player:
                 return False
-            grid[self.r][self.c] = 0
-            self.r, self.c = newR, newC
-            grid[self.r][self.c] = self
-            return True
+            if self.playerObj.inCheck:
+                grid[self.r][self.c] = 0
+                prev = grid[newR][newC]
+                grid[newR][newC] = self
+                if self.playerObj.isInCheck(grid):
+                    grid[self.r][self.c] = self
+                    grid[newR][newC] = prev
+                    return False
+                else:
+                    grid[self.r][self.c] = 0
+                    self.r, self.c = newR, newC
+                    grid[self.r][self.c] = self
+                    return True
+            else:
+                grid[self.r][self.c] = 0
+                self.r, self.c = newR, newC
+                grid[self.r][self.c] = self
+                return True
         return False
 
     def bannedSpots(self):
@@ -108,16 +136,6 @@ class Queen():
 
         #Spaces to the left
         tempC = self.c - 1
-        while tempC < 8:
-            if grid[self.r][tempC] != 0:
-                if grid[self.r][tempC].player != self.player:
-                    res.add((self.r, tempC))
-                break
-            res.add((self.r, tempC))
-            tempC += 1
-        
-        #Spaces to the right
-        tempC = self.c + 1
         while tempC >= 0:
             if grid[self.r][tempC] != 0:
                 if grid[self.r][tempC].player != self.player:
@@ -125,6 +143,16 @@ class Queen():
                 break
             res.add((self.r, tempC))
             tempC -= 1
+        
+        #Spaces to the right
+        tempC = self.c + 1
+        while tempC < 8:
+            if grid[self.r][tempC] != 0:
+                if grid[self.r][tempC].player != self.player:
+                    res.add((self.r, tempC))
+                break
+            res.add((self.r, tempC))
+            tempC += 1
 
         return res
 

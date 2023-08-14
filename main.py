@@ -158,8 +158,8 @@ while running:
             elif grid[r][c] != 0:
                 grid[r][c].isClicked = True
                 currClicked = grid[r][c]
-            player0.isInCheck()
-            # player1.isInCheck()
+            player0.isInCheck(grid)
+            player1.isInCheck(grid)
     update_grid()
     pygame.display.flip()
 

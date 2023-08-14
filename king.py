@@ -47,11 +47,24 @@ class King():
                 continue
             possibleMovesSet.add((move[0], move[1]))
         if (newR, newC) in possibleMovesSet:
-            grid[self.r][self.c] = 0
-            self.r, self.c = newR, newC
-            grid[self.r][self.c] = self
-            return True
-
+            if self.playerObj.inCheck:
+                grid[self.r][self.c] = 0
+                prev = grid[newR][newC]
+                grid[newR][newC] = self
+                if self.playerObj.isInCheck(grid):
+                    grid[self.r][self.c] = self
+                    grid[newR][newC] = prev
+                    return False
+                else:
+                    grid[self.r][self.c] = 0
+                    self.r, self.c = newR, newC
+                    grid[self.r][self.c] = self
+                    return True
+            else:
+                grid[self.r][self.c] = 0
+                self.r, self.c = newR, newC
+                grid[self.r][self.c] = self
+                return True
         return False
 
     def bannedSpots(self):
@@ -77,16 +90,14 @@ class King():
         
         return res
     
-    def isInCheck(self):
-        self.calc_banned_squares()
-        print(self.r, self.c)
-        print(self.bannedSquares)
+    def isInCheck(self, grid):
+        self.calc_banned_squares(grid)
         res = (self.r, self.c) in self.bannedSquares
+        print(self.bannedSquares)
         print(res)
         return res
     
-    def calc_banned_squares(self):
-        print(self.player)
+    def calc_banned_squares(self, grid):
         res = set()
         for r in range(8):
             for c in range(8):
